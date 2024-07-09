@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# The Theta Hackathon 2024 FE
 
-## Getting Started
+The front-end repo. details to come.
 
-First, run the development server:
+## Commands
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+|                        |                                             |
+| ---------------------- | ------------------------------------------- |
+| `pnpm i`               | Installs the dependencies                   |
+| `pnpm dev`             | Starts the development server               |
+| `pnpm build`           | Builds the application for production       |
+| `pnpm start`           | Starts the production server, only if built |
+| `pnpm lint`            | Runs the linter                             |
+| `pnpm test`            | Runs the unit tests                         |
+| `pnpm test:watch`      | Runs the unit tests in watch mode           |
+| `pnpm test:playwright` | Runs the end-to-end tests                   |
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Env variables are managed and validated for type safety with [@t3-oss/env-nextjs](https://env.t3.gg/) and require configuration in the file [@/lib/env.js](src/lib/env.js).
 
-## Learn More
+## Testing
 
-To learn more about Next.js, take a look at the following resources:
+### Unit tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[Jest](https://jestjs.io/) is used for unit tests.
+You can run the tests once or in watch mode.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- `pnpm test` // runs once
+- `pnpm test:watch` // runs in watch mode
 
-## Deploy on Vercel
+### End-to-end tests
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[Playwright](https://nextjs.org/docs/app/building-your-application/testing/playwright) is used for end-to-end tests.
+A github action is configured to run the tests on push and pull request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To run playwright locally, you must build and start the server first.
+
+1. `pnpm build && pnpm start`
+2. `pnpm test:playwright`
