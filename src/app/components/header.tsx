@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { env } from '@/lib/env';
 
 export default function Header() {
   return (
@@ -6,7 +7,9 @@ export default function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <a className="mr-4 flex items-center space-x-2 lg:mr-6" href="/">
-            <span className="hidden font-bold lg:inline-block">Team Theta</span>
+            <span className="hidden font-bold lg:inline-block">
+              {env.NEXT_PUBLIC_TEAM_NAME}
+            </span>
           </a>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
