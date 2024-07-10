@@ -13,7 +13,7 @@ The front-end repo. details to come.
 | `pnpm lint`            | Runs the linter                             |
 | `pnpm test`            | Runs the unit tests                         |
 | `pnpm test:watch`      | Runs the unit tests in watch mode           |
-| `pnpm test:playwright` | Runs the end-to-end tests                   |
+| `pnpm test:e2e`        | Runs the playwright end-to-end tests        |
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
@@ -39,4 +39,4 @@ A github action is configured to run the tests on push and pull request.
 To run playwright locally, you must build and start the server first.
 
 1. `pnpm build && pnpm start`
-2. `pnpm test:playwright`
+2. `pnpm test:e2e`
