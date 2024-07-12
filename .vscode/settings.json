@@ -1,0 +1,8 @@
+{
+  "cssVarColorDecorator.supportedLanguages": [
+    "css",
+    "scss",
+    "tailwindcss",
+    "postcss"
+  ]
+}
