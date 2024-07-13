@@ -41,17 +41,17 @@ function VideoFileInput({
       <input {...getInputProps()} />
       <div className="flex flex-col gap-5 sm:gap-6 items-center text-center">
         <div className="max-w-prose mx-auto sm:text-balance">
-          <h2 className="font-serif text-3xl sm:text-4xl mb-8 text-accent-foreground">
+          <h2 className="font-sans font-semibold text-2xl sm:text-2xl mb-4 text-accent-foreground">
             Load a video to get started
           </h2>
-          <p className="text-muted-foreground">
-            <span>We support a variety of video formats,</span>{' '}
-            <span>including MP4, MOV, AVI, WMV, and MPEG.</span>
-          </p>
         </div>
         <TextScrambleButton targetText="Secure & load video" />
-        <p className="text-sm text-accent-foreground">
+        <p className="text-accent-foreground max-w-prose">
           Drag and drop a video file here or click button to select a file.
+        </p>
+        <p className="text-sm text-muted-foreground text-balance max-w-prose">
+          <span>We support a variety of video formats,</span>{' '}
+          <span>including MP4, MOV, AVI, WMV, and MPEG.</span>
         </p>
       </div>
     </div>
