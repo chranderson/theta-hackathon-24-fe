@@ -1,7 +1,6 @@
 import { useDropzone } from 'react-dropzone';
-import { UploadIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { TextScrambleButton } from '@/components/ui/textScrambleButton';
 
 /**
  *  A drop zone file input for loading a single video file.
@@ -50,14 +49,7 @@ function VideoFileInput({
             <span>including MP4, MOV, AVI, WMV, and MPEG.</span>
           </p>
         </div>
-        <Button
-          className="font-bold inline-flex flex-nowrap gap-4 items-center "
-          size="lg"
-          variant="destructive"
-        >
-          <UploadIcon className="h-6 w-6" strokeWidth={2} /> Secure and load
-          video
-        </Button>
+        <TextScrambleButton targetText="Secure & load video" />
         <p className="text-sm text-accent-foreground">
           Drag and drop a video file here or click button to select a file.
         </p>
