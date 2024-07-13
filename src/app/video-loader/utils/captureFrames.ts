@@ -1,3 +1,5 @@
+import captureAndRedactFrame from './captureAndRedactFrame';
+
 export type ProgressPayload = {
   processed: number;
   total: number;
@@ -60,10 +62,13 @@ export default async function captureFrames(
         // set the time for the desired frame
         videoEl.currentTime = time;
         // Use the seeked event to wait until the video has been seeked to the desired time.
-        videoEl.onseeked = () => {
+        videoEl.onseeked = async () => {
           try {
-            context.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
-            const dataURL = canvasEl.toDataURL('image/png');
+            const { dataURL } = await captureAndRedactFrame({
+              canvas: canvasEl,
+              video: videoEl
+            });
+
             resolve({ dataURL, time });
           } catch (error) {
             reject(error);
@@ -82,13 +87,15 @@ export default async function captureFrames(
 
       const thisFrame = i + 1;
 
-      // update progress if provided
-      onProgress?.({
-        processed: thisFrame,
-        total: frameCount,
-        percent: (thisFrame / frameCount) * 100,
-        finished: thisFrame === frameCount
-      });
+      if (typeof onProgress === 'function') {
+        // update progress if provided
+        onProgress({
+          processed: thisFrame,
+          total: frameCount,
+          percent: (thisFrame / frameCount) * 100,
+          finished: thisFrame === frameCount
+        });
+      }
     });
   }
 

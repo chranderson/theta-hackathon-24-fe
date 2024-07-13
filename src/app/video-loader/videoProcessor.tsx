@@ -14,6 +14,7 @@ function FramesGrid({ frames }: { frames: string[] }) {
         <div
           className="relative aspect-video flex items-center justify-center outline outline-offset-4 outline-secondary-foreground/10 hover:outline-secondary-foreground/40"
           key={src}
+          onClick={() => alert('open in modal')}
         >
           <img
             className="object-contain"
@@ -40,7 +41,7 @@ function ProcessingProgress({
     <div className="flex items-center justify-center pulse py-16 sm:py-24">
       <div className="max-w-100 grid gap-4">
         <span className="text-xl font-semibold animate-pulse">{message}</span>
-        <Progress value={percent * 1.1} />
+        <Progress value={percent} />
       </div>
     </div>
   );
@@ -82,7 +83,9 @@ function VideoProcessor({ file }: { file: File }) {
 
       // this caps frame count to make demo faster.
       // in real applications, we would not use interval snapshots.
-      const { interval, frameCount } = getCaptureInterval(target.duration);
+      const { interval, frameCount } = getCaptureInterval(target.duration, {
+        maxFrameCount: 2 // set for development and testing
+      });
 
       captureFrames(
         {
@@ -113,7 +116,7 @@ function VideoProcessor({ file }: { file: File }) {
       {!progress.finished && (
         <ProcessingProgress
           message="Processing Video"
-          percent={progress.percent}
+          percent={Math.max(10, progress.percent)}
         />
       )}
     </>
