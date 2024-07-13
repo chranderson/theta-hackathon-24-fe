@@ -100,11 +100,11 @@ function VideoProcessor({ file }: { file: File }) {
     };
 
     return () => {
-      if (!videoRef.current?.src) return;
+      if (!videoEl.src) return;
       // revmoe the video url to prevent memory leaks
-      URL.revokeObjectURL(videoRef.current.src);
+      URL.revokeObjectURL(videoEl.src);
     };
-  }, []);
+  }, [file]);
 
   return (
     <>
