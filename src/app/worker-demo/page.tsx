@@ -30,17 +30,14 @@ export default function WorkerDemoPage() {
     };
   }, []);
 
-  const pingWorker = useCallback(
-    (type: WorkerMessageT['type']) => {
-      const workerMessage: WorkerMessageT = {
-        type
-      };
-      if (workerRef.current) {
-        workerRef.current.postMessage(workerMessage);
-      }
-    },
-    [pingCount]
-  );
+  const pingWorker = useCallback((type: WorkerMessageT['type']) => {
+    const workerMessage: WorkerMessageT = {
+      type
+    };
+    if (workerRef.current) {
+      workerRef.current.postMessage(workerMessage);
+    }
+  }, []);
 
   return (
     <main className="flex-1 flex h-full gap-8 flex-col items-center justify-center p-24">
