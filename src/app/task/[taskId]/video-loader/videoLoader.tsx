@@ -7,8 +7,10 @@ import { VideoFileInput } from '@/components/ui/videoFileInput';
 import FramesGrid from './framesGrid';
 import { initDb } from '@/lib/db';
 import type { Frame } from './utils/captureFrames';
+import { useRouter } from 'next/navigation';
 
 export default function VideoLoader({ taskId }: { taskId: string }) {
+  const router = useRouter();
   const [status, setStatus] = useState<'LOADING' | 'IDLE' | 'SUBMITTING'>(
     'LOADING'
   );
@@ -48,7 +50,7 @@ export default function VideoLoader({ taskId }: { taskId: string }) {
     await sleep(5000);
 
     deleteFrames();
-    setStatus('IDLE');
+    router.push('/');
   }
 
   useEffect(() => {
@@ -71,7 +73,7 @@ export default function VideoLoader({ taskId }: { taskId: string }) {
         <VideoFileInput onChange={setFile} />
       )}
       <section>
-        <div className="py-8 sm:px-0 empty:hidden flex flex-col sm:flex-row gap-5 sm:justify-between sm:items-center border-b">
+        <div className="py-8 sm:px-0 empty:hidden flex flex-col sm:flex-row gap-5 sm:justify-between sm:items-center">
           {status === 'IDLE' && (
             <div className="flex justify-between items-center w-full">
               <span className="sm:text-lg">
