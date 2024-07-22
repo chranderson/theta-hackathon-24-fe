@@ -5,7 +5,8 @@ const defaultOptions = {
   outputFileType: 'image/jpg',
   redactedColor: 'black',
   outlineColor: 'green',
-  outlineWidth: 2
+  outlineWidth: 2,
+  outputFileQuality: 0.6
 };
 
 /**
@@ -23,6 +24,7 @@ export default async function captureAndRedactFrame({
   video: HTMLVideoElement;
   options?: {
     outputFileType?: 'image/jpg' | 'image/png';
+    outputFileQuality?: number;
     redactedColor?: CanvasFillStrokeStyles['fillStyle'];
     outlineColor?: CanvasFillStrokeStyles['strokeStyle'];
     outlineWidth?: CanvasPathDrawingStyles['lineWidth'];
@@ -91,7 +93,8 @@ export default async function captureAndRedactFrame({
 
       // convert the redacted canvas frame to dataURL
       const redactedDataURL = canvas.toDataURL(
-        options?.outputFileType || defaultOptions.outputFileType
+        options?.outputFileType || defaultOptions.outputFileType,
+        options?.outputFileQuality || defaultOptions.outputFileQuality
       );
       return resolve({ dataURL: redactedDataURL });
     } catch (error) {
