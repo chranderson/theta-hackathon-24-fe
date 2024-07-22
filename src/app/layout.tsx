@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import '@rainbow-me/rainbowkit/styles.css';
 
 import { Inter as FontSans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import Header from '@/app/components/header';
 import Footer from './components/footer';
 import { env } from '@/lib/env';
+import Providers from './providers';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -13,7 +15,7 @@ const fontSans = FontSans({
 });
 export const metadata: Metadata = {
   title: `${env.NEXT_PUBLIC_TEAM_NAME}`,
-  description: `${env.NEXT_PUBLIC_APP_NAME} 2024 entry`
+  description: `${env.NEXT_PUBLIC_APP_NAME}`
 };
 
 export default function RootLayout({
@@ -29,11 +31,13 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <div className="relative bg-background flex min-h-screen flex-col ">
-          <Header />
-          {children}
-        </div>
-        <Footer />
+        <Providers>
+          <div className="relative bg-background flex min-h-screen flex-col ">
+            <Header />
+            {children}
+          </div>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

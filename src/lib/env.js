@@ -18,7 +18,9 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
     NEXT_PUBLIC_REPO_LINK: z.string().url(),
-    NEXT_PUBLIC_TEAM_NAME: z.string().min(1)
+    NEXT_PUBLIC_TEAM_NAME: z.string().min(1),
+    NEXT_PUBLIC_WALLET_CONNECT_PROJECT_NAME: z.string().min(1).optional(),
+    NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: z.string().min(32)
   },
   /*
    * Due to how Next.js bundles environment variables on Edge and Client,
@@ -29,6 +31,10 @@ export const env = createEnv({
   runtimeEnv: {
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_PUBLIC_REPO_LINK: process.env.NEXT_PUBLIC_REPO_LINK,
-    NEXT_PUBLIC_TEAM_NAME: process.env.NEXT_PUBLIC_TEAM_NAME
-  }
+    NEXT_PUBLIC_TEAM_NAME: process.env.NEXT_PUBLIC_TEAM_NAME,
+    NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID:
+      process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
+  },
+  NEXT_PUBLIC_WALLET_CONNECT_PROJECT_NAME:
+    process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_NAME
 });
