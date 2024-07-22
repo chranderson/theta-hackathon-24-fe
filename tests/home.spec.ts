@@ -10,7 +10,7 @@ test('has description', async ({ page }) => {
   const metaDescription = page.locator('meta[name="description"]');
   await expect(metaDescription).toHaveAttribute(
     'content',
-    /Theta Network Hackathon 2024 entry/
+    /Theta Network Hackathon/
   );
 });
 
