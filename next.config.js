@@ -7,6 +7,10 @@ jiti('./src/lib/env');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    return config;
+  },
   transpilePackages: ['@t3-oss/env-nextjs', '@t3-oss/env-core']
 };
 
