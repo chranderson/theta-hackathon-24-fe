@@ -1,30 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import getCaptureInterval from './utils/getCaptureInterval';
 import { Progress } from '@/components/ui/progress';
-import captureFrames from './utils/captureFrames';
+import captureFrames, { Frame } from './utils/captureFrames';
 import type { ProgressPayload } from './utils/captureFrames';
-
-/**
- * A grid for rendering video frame images.
- */
-function FramesGrid({ frames }: { frames: string[] }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6 sm:mt-16 animate-fade-in">
-      {frames.map((src, i) => (
-        <div
-          className="relative aspect-video flex items-center justify-center outline outline-offset-4 outline-secondary-foreground/10 hover:outline-secondary-foreground/40"
-          key={src}
-        >
-          <img
-            className="object-contain"
-            src={src}
-            alt={`video frame: ${i + 1}`}
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
+import { initDb } from '@/lib/db';
 
 /**
  * Progress bar indicator with message for pending state
@@ -55,8 +34,15 @@ function ProcessingProgress({
  * - add Sonner to provide user feedback
  * - look into using webworker to process frames
  */
-function VideoProcessor({ file }: { file: File }) {
-  const [frames, setFrames] = useState<string[]>([]);
+function VideoProcessor({
+  file,
+  taskId,
+  onSuccess
+}: {
+  file: File;
+  taskId: string;
+  onSuccess: () => void;
+}) {
   const [progress, setProgress] = useState<ProgressPayload>({
     processed: 0,
     total: 0,
@@ -67,6 +53,18 @@ function VideoProcessor({ file }: { file: File }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const handleProcessComplete = async (frames: Frame[]) => {
+    const db = await initDb();
+    await db.put('processed-frames', {
+      complete: true,
+      taskId,
+      frames,
+      date: new Date().toISOString()
+    });
+    await db.put('tasks', { taskId, status: 'processed' });
+    onSuccess();
+  };
+
   useEffect(() => {
     // initialze video & canvas
     const videoEl = videoRef.current;
@@ -75,7 +73,10 @@ function VideoProcessor({ file }: { file: File }) {
 
     videoEl.src = URL.createObjectURL(file);
 
-    videoEl.onloadedmetadata = (event) => {
+    videoEl.onloadedmetadata = async (event) => {
+      const db = await initDb();
+      await db.put('tasks', { taskId, status: 'processing' });
+
       const target = event.target as HTMLVideoElement;
       canvasEl.width = target.videoWidth;
       canvasEl.height = target.videoHeight;
@@ -83,7 +84,7 @@ function VideoProcessor({ file }: { file: File }) {
       // this caps frame count to make demo faster.
       // in real applications, we would not use interval snapshots.
       const { interval, frameCount } = getCaptureInterval(target.duration, {
-        maxFrameCount: 2 // set for development and testing
+        // maxFrameCount: 2 // set for development and testing
       });
 
       captureFrames(
@@ -94,7 +95,7 @@ function VideoProcessor({ file }: { file: File }) {
           frameCount,
           onProgress: setProgress
         },
-        setFrames
+        handleProcessComplete
       );
     };
 
@@ -109,8 +110,6 @@ function VideoProcessor({ file }: { file: File }) {
     <>
       <canvas className="hidden" ref={canvasRef} />
       <video className="hidden" ref={videoRef} />
-
-      {!!frames.length && <FramesGrid frames={frames} />}
 
       {!progress.finished && (
         <ProcessingProgress

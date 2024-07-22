@@ -6,7 +6,9 @@ export default function Home() {
     <main className="container">
       <h1 className="font-serif text-4xl text-center my-24">
         {env.NEXT_PUBLIC_APP_NAME}
-        <span className="block text-primary text-6xl">2024</span>
+        <span className="block text-primary">
+          Select a task to earn Sepolia ETH
+        </span>
       </h1>
       <TaskTable />
     </main>

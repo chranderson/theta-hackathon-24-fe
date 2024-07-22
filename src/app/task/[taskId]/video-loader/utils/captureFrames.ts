@@ -6,6 +6,7 @@ export type ProgressPayload = {
   percent: number;
   finished: boolean;
 };
+export type Frame = { id: string; url: string };
 
 /**
  * A utility function to capture frames at a given interval for a provided video element.
@@ -40,9 +41,9 @@ export default async function captureFrames(
     onProgress?: (progress: ProgressPayload) => void;
   },
   /** callback - returns all processed frames upon completion */
-  setFrames: (frames: string[]) => void
+  setFrames: (frames: Frame[]) => void
 ) {
-  let processedFrames: string[] = [];
+  let processedFrames: Frame[] = [];
   const context = canvasEl.getContext('2d');
   if (!context) {
     throw new Error('canvasContext is not defined');
@@ -82,8 +83,11 @@ export default async function captureFrames(
 
   // capture a frame every interval seconds, until we have captured all frames
   for (let i = 0; i < frameCount; i++) {
-    await capture(i * interval).then(({ dataURL }) => {
-      processedFrames.push(dataURL);
+    await capture(i * interval).then(async ({ dataURL }) => {
+      const currentTime = i * interval;
+      const idIDB = currentTime.toString();
+
+      processedFrames.push({ id: idIDB, url: dataURL });
 
       const thisFrame = i + 1;
 
