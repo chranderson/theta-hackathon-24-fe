@@ -12,7 +12,7 @@ export default function Header() {
             </span>
           </a>
         </div>
-        <div className="flex  items-center justify-end space-x-2 md:justify-end">
+        <div className="flex items-center justify-end space-x-2 md:justify-end">
           <ConnectButton showBalance={false} />
         </div>
       </div>

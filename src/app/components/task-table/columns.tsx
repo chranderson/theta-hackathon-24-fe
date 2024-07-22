@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 
@@ -80,12 +81,8 @@ export const columns: ColumnDef<Task>[] = [
       const task = row.original;
 
       return (
-        <Button
-          variant="default"
-          className=""
-          onClick={() => alert(`perform task: ${task.id}`)}
-        >
-          Earn
+        <Button variant="default" className="" asChild>
+          <Link href={`/task/${task.id}`}>Earn</Link>
         </Button>
       );
     }

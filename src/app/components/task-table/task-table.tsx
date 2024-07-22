@@ -1,7 +1,7 @@
 import { DataTable } from './data-table';
 import { columns } from './columns';
 import type { Task } from './columns';
-import { tasks } from './fixtures';
+import { tasks } from '@/task-fixtures';
 
 const transformedTasks: Task[] = tasks.map((task) => ({
   ...task,
