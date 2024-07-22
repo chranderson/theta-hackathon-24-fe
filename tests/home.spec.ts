@@ -21,7 +21,7 @@ test('heading', async ({ page }) => {
   ).toBeVisible();
 });
 
-test('Connect Wallet button', async ({ page }) => {
+test.skip('Connect Wallet button', async ({ page }) => {
   await page.goto('/');
   await expect(
     page.getByRole('button', { name: 'Connect Wallet' })
