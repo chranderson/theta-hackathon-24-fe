@@ -72,11 +72,15 @@ export default function VideoLoader({ taskId }: { taskId: string }) {
       )}
       <section>
         <div className="py-8 sm:px-0 empty:hidden flex flex-col sm:flex-row gap-5 sm:justify-between sm:items-center border-b">
-          {status === 'IDLE' && !!file && (
+          {status === 'IDLE' && (
             <div className="flex justify-between items-center w-full">
               <span className="sm:text-lg">
-                {file?.name} /{' '}
-                {file?.size ? `${fileSizeInMB(file.size)} MB` : null}
+                {!!file && (
+                  <>
+                    {file?.name} /{' '}
+                    {file?.size ? `${fileSizeInMB(file.size)} MB` : null}
+                  </>
+                )}
               </span>
               <div className="flex gap-4">
                 {hasFrames && (
